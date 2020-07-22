@@ -1,0 +1,179 @@
+/* ------------------------------------------------Entire Webapp-------------------------------------------------- */
+@font-face{
+    font-family: "myRoboto";
+    src: url("fonts/Roboto/Roboto-Regular.ttf");
+}
+@font-face{
+    font-family: "titleRoboto";
+    src: url("fonts/Roboto_Slab/static/RobotoSlab-Regular.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+body{
+    font-family: 'myRoboto';
+    font-style: normal;
+    font-weight: normal;
+}
+html,body{
+    overflow-x: hidden;
+}
+
+/* SVG CSS NEEDS */
+@keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+}
+.background {
+    stroke-width: 7;
+    fill: none;
+}
+.overlayLine {
+    fill: none;
+    stroke-width: 7;
+    animation: dash 2s linear forwards;
+}
+
+/* ------------------------------------------------HOME-------------------------------------------------- */
+
+#titleWrapper{
+    width: 65%;
+    margin: 0 auto;
+    margin-top: 16px;
+}
+#title, #titleStatus{
+    font-family: "titleRoboto";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    color: rgba(0, 0, 0, 0.86);
+}
+#titleStatus{
+    margin-bottom: 30px;
+}
+.yesterdayTitle, .yesterdayTitleStatus{
+    display: inline;
+}
+#totalVisitors{
+    font-size: 16px;
+    line-height: 19px;
+    color: #666666;
+    margin-top: 6px;
+}
+.stat{
+    height: 56px;
+}
+.statWrapper{
+    width: 65%;
+    margin: 0 auto;
+}
+.statWrapper span{
+	vertical-align:middle;
+	display:inline-block;
+}
+.textWrap{
+    display: inline;
+}
+.svg2{
+    vertical-align:middle;
+    display: inline-block;
+    margin-left: 20px;
+}
+.statWrapper2{
+    width: 98%;
+    margin: 0 auto;
+}
+.textWrapper{
+    display: inline-block;
+    position: relative;
+    line-height: 23px;
+    vertical-align: middle;
+}
+.statImage{
+    height: 23px;
+    width: 23px;
+    margin: 20px 30px 20px 0px;
+    vertical-align: middle;
+}
+#parkingStat{
+    background-color: #507282;
+    color: white;
+    font-size: 16px;
+}
+#eastEntranceStat{
+    background-color: #C9AC68;
+    color: white;
+    font-size: 16px;
+}
+#southEntranceStat{
+    background-color: #CDBD97;
+    color: white;
+    font-size: 16px;
+}
+#canyonStat{
+    background-color: #B3A584;
+    color: white;
+    font-size: 16px;
+}
+#yesterdayWrapper{
+    width: 65%;
+    margin: 0 auto;
+    margin-top: 90px;
+    margin-bottom: 25px;
+}
+.tableStats{
+    width: 100%;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: normal;
+    margin-top: 20px;
+}
+.tableTD, .tableTH{
+    border-bottom: 1px solid #E5E7DE;
+}
+.tableTD{
+    height: 50px;
+    vertical-align: middle;
+    text-align: left;
+}
+.tableTH{
+    text-align: left;
+    font-weight: bold;
+}
+
+.gold{
+    color: #C9AC68;
+}
+.right{
+    text-align: right;
+}
+#yesterdayEntrances{
+    margin-top: 15px;
+}
+#svg{
+    position: absolute;
+    top: 8%;
+    width: 350px;
+    height: 350px;
+}
+.trafficSvg{
+    position: absolute;
+    top: 280px;
+    width: 60vw;
+    height: 65vh;
+    left: 0;
+    right: 0;
+    margin: auto
+}
+@media only screen and (min-width: 720px){
+    #svg{
+        left: 56%;
+    }
+}
+#svgContainer{
+    width: 100%;
+}
+.trafficSvgContainer{
+    width: 100%;
+}
