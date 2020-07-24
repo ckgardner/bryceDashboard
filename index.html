@@ -11,7 +11,113 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
 	<body>
-        
+		<div id="app">
+			<v-app>
+				<v-main>
+					<!-- START MAIN PAGE -->
+					<div v-if="mainPage=='Home' ">
+						<div> <!-- App bar for main page -->
+							<v-app-bar dense>
+								<v-toolbar-title id="loginTitle" class="homeTitle d-none d-sm-flex" v-on:click="mainPage='Home'; statRefresh();"><img class="bison" src="icons/blueBison.svg">Parkdata - Bryce Canyon National Park</v-toolbar-title>
+								<v-toolbar-title class="d-xs-flex d-sm-none">Parkdata</v-toolbar-title>
+								<v-spacer></v-spacer>
+								<v-btn class="d-none d-sm-flex" text color="#507282" v-on:click="mainPage='Parking'; statRefresh(); resetPages()">Parking</v-btn>
+								<v-btn class="d-xs-flex d-sm-none" text color="#507282" v-on:click="mainPage='Parking'; statRefresh(); resetPages()">
+									<img src="icons/parking_outline_blue.svg" alt="">
+								</v-btn>
+								<!-- drop down for Entrances -->
+								<v-menu offset-y>
+									<template v-slot:activator="{ on }">
+										<v-btn class="d-none d-sm-flex" color="#C9AC68" text v-on="on">Entrances</v-btn>
+										<v-btn class="d-xs-flex d-sm-none" color="#C9AC68" text v-on="on">
+											<img src="icons/kolob_outline_yellow.svg" alt="">
+										</v-btn>
+									</template>
+									<v-list>
+										<v-list-item
+										v-for="(entrance, index) in Entrances" :key="index" v-on:click="mainPage='Entrances'; statRefresh(); EntrancePage=entrance ">
+										<v-list-item-title>{{ entrance }}</v-list-item-title>
+										</v-list-item>
+									</v-list>
+								</v-menu>
+								<!-- <v-btn text color="#507282" v-on:click="logoutClicked(); resetPages();">Log Out</v-btn> -->
+							</v-app-bar>
+						</div>
 
+						<div id="titleWrapper">
+							<div id="totalVisitors">{{totalVisitors}} Visitors in 2019</div>
+							<div id="title">Today: {{todaysDate}}</div>
+							<div id="titleStatus">{{titleStatus}}</div>
+						</div>
+						<div class="stat" id="parkingStat">
+							<div class="statWrapper">
+								<img class="statImage" src="icons/parking_outline.svg">
+								<span>Parking: {{parkingCount}}% Full</span>
+							</div>
+						</div>
+						<div class="stat" id="eastEntranceStat">
+							<div class="statWrapper">
+								<img class="statImage" src="icons/east_entrance_outline.svg">
+								<span style="display:inline-block;"><b>Entrance:</b><br> {{entranceDisplay}}</span>
+							</div>
+						</div>
+						<div id="svgContainer">
+							<svg id="svg" viewBox="45 43 110 110">
+								<circle cx="100" cy="100" r="51" style="stroke: white; fill: white;"/> 
+								<text x="86" y="104" id="currentTemp" font-size="9" font-weight="bold" style="fill: #507282">{{currentTemp}}&#176;</text><image x="102" y="94" width="14" height="14" v-bind:href="weatherImage"></image>
+								<circle class="background" cx="100" cy="100" r="23" stroke="#F7F6F4" />
+								<circle class="background" cx="100" cy="100" r="31" stroke="#F5F2EA" />
+								<circle class="background" cx="100" cy="100" r="39" stroke="#eddfbb" />
+								<circle class="background" cx="100" cy="100" r="47" stroke="#DCE3E6" />
+								<circle id="line0" class="overlayLine" cx="100" cy="100" r="23" stroke="#B3A584" stroke-dasharray="0, 3000" stroke-dashoffset="126" transform="rotate(-90,100,100)" />
+								<circle id="line1" class="overlayLine" cx="100" cy="100" r="31" stroke="#CDBD97" stroke-dasharray="0, 3000" stroke-dashoffset="126" transform="rotate(-90,100,100)" />
+								<circle id="line2" class="overlayLine" cx="100" cy="100" r="39" stroke="#C9AC68" stroke-dasharray="0, 3000" stroke-dashoffset="188" transform="rotate(-90,100,100)" />
+								<circle id="line3" class="overlayLine" cx="100" cy="100" r="47" stroke="#507282" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+							</svg>
+						</div>
+						<div class="smallShow">
+							<div class="smallStat" id="parkingStat">
+								<div class="statWrapper">
+									<img class="statImage" src="icons/parking_outline.svg">
+									<span>Parking: {{parkingCount}}% Full</span>
+								</div>
+							</div>
+							<div class="smallStat" id="eastEntranceStat">
+								<div class="statWrapper">
+									<img class="statImage" src="icons/east_entrance_outline.svg">
+									<span><b>Entrance:</b><br> {{entranceDisplay}}</span>
+								</div>
+							</div>
+						</div>
+						<div id="yesterdayWrapper">
+							<div id="title" class="yesterdayTitle">Yesterday: {{yesterdaysDate}}</div>
+							<!-- <br><div class="yesterdayTitleStatus">{{yesterdayTitleStatus}}</div> -->
+							<table id="yesterdaysEntrances" class="tableStats">
+								<tr>
+								<th class="tableTH">Entrance</th>
+								<th class="right tableTH">Vehicles</th>
+								<th class="right tableTH">People</th>
+								<th class="right smallHide tableTH">Date Updated</th>
+								</tr>
+								<tr>
+								<td class="tableTD">Entrance</td>
+								<td class="right tableTD">{{entranceCount}}</td>
+								<td class="right tableTD">{{entrancePeople}}</td>
+								<td class="right smallHide tableTD">{{entranceDateUpdated}}</td>
+								</tr>
+								<tr>
+							</table>
+						</div>
+						<img id="footer" src="icons/footer.svg">
+					</div>
+
+					<!-- END MAIN PAGE -->
+				<!-- </div> -->
+				</v-main>
+			</v-app>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+		<script src="app.js"></script>
     </body>
 </html>

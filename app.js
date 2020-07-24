@@ -5,17 +5,28 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data: {
         mainPage: 'Home',
-        totalVisitors: '',
+        totalVisitors: '18000',
         todaysDate: '',
+        titleStatus: 'Busy',
         yesterdaysDate: '',
         currentTime: '',
         currentTemp: '',
+        weatherImage: '',
 
-        Entrances: '',
+        parkingCount: '50',
+
+        Entrances: ['BRCA',],
+        entranceDisplay: '',
+        entranceCount: '',
+        entranceCountYesterday: '',
+        entranceDateUpdated: '',
+        entrancePeople: 'N/A',
 
     },
     created: function () {
         this.getTodaysDate();
+        this.getWeatherAPI();
+        this.fetchData();
     },
     methods:{
         statRefresh: function () {
@@ -45,7 +56,22 @@ var app = new Vue({
 				console.log(err);
 			}
 			return ret;
-		},
+        },
+        fetchData: function(){
+            var vm = this;
+            axios.get("https://trailwaze.info/bryce/request.php").then(response => {
+                //Today
+				vm.entranceCount = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Today", "count"], 0);
+				vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntrance1", "Today", "count"], 0);
+				//Yesterday
+				var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "multiplier"], 2.6);
+				vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "count"], "N/A");
+                vm.entranceDateUpdated = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "date"], "N/A");
+                if(vm.entranceCount > 0){vm.entranceDisplay = vm.entranceCount + " vehicles | " + Math.round(vm.entranceCount * entranceMultiplier) + " visitors";}
+            }).catch(error => {
+                vm = "Fetch " + error;
+            });
+        },
         getTodaysDate: function () {
             var date = new Date();
             var yesterday = new Date(date);
@@ -86,9 +112,9 @@ var app = new Vue({
             });
         },
         checkWeatherImage: function(icon){
-            console.log(icon);
+            console.log("weather:", icon);
             if (icon == null || icon == "NULL" || icon == "null"){
-                this.weatherImage = "images/blueBison.svg";
+                this.weatherImage = "icons/blueBison.svg";
                 return;
             }
             const hours = new Date().getUTCHours();
