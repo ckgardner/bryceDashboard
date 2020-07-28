@@ -41,22 +41,22 @@ v-app-bar{
     font-size: 20px;
     line-height: 19px;
     letter-spacing: 0pt;
-    color: #507282;
+    color: #B25538;
     text-transform: none;
     margin-right: 20px;
 }
 #loginButton{
-    border: 1px solid #507282;
+    border: 1px solid #B25538;
     box-sizing: border-box;
     border-radius: 20px;
     font-size: 16px;
     line-height: 19px;
-    color: #507282;
+    color: #B25538;
 }
 #loginTitle{
     font-size: 30px;
     line-height: 60px;
-    color: #507282;
+    color: #B25538;
     font-family: "titleRoboto";
     margin: 20px;
     cursor: pointer;
@@ -73,7 +73,7 @@ v-app-bar{
     height: auto;
 }
 #requestAccess{
-    background: #507282;
+    background: #B25538;
     color: white;
     border-radius: 100px;
     height: 10%;
@@ -219,9 +219,9 @@ v-app-bar{
 }
 /* -----------------------------MAIN PAGE---------------------------*/
 #titleWrapper{
-    width: 65%;
-    margin: 0 auto;
-    margin-top: 16px;
+    left: 17.5%;
+    margin-top: 46px;
+    position: absolute;
 }
 #title, #titleStatus{
     font-family: "titleRoboto";
@@ -244,11 +244,12 @@ v-app-bar{
     margin-top: 6px;
 }
 .stat{
-    height: 56px;
+    height: 86px;
 }
 .statWrapper{
     width: 65%;
     margin: 0 auto;
+    margin-top: 152px;
 }
 .statWrapper span{
 	vertical-align:middle;
@@ -275,7 +276,7 @@ v-app-bar{
 .statImage{
     height: 23px;
     width: 23px;
-    margin: 20px 30px 20px 0px;
+    margin: 30px 30px 20px 0px;
     vertical-align: middle;
 }
 #parkingStat{
@@ -284,17 +285,7 @@ v-app-bar{
     font-size: 16px;
 }
 #eastEntranceStat{
-    background-color: #C9AC68;
-    color: white;
-    font-size: 16px;
-}
-#southEntranceStat{
-    background-color: #CDBD97;
-    color: white;
-    font-size: 16px;
-}
-#canyonStat{
-    background-color: #B3A584;
+    background-color: #B25538;
     color: white;
     font-size: 16px;
 }
@@ -355,7 +346,7 @@ th{
 }
 #svg{
     position: absolute;
-    top: 8%;
+    top: 5%;
     width: 350px;
     height: 350px;
 }
@@ -458,7 +449,7 @@ body {
 .titles{
     font-size: 30px;
     line-height: 60px;
-    color: #507282;
+    color: #B25538;
     font-family: "titleRoboto";
     margin: 20px;
     cursor: pointer;

@@ -7,7 +7,6 @@ var app = new Vue({
         mainPage: 'Home',
         totalVisitors: '18000',
         todaysDate: '',
-        titleStatus: 'Busy',
         yesterdaysDate: '',
         currentTime: '',
         currentTemp: '',
@@ -38,7 +37,7 @@ var app = new Vue({
 			//fields = array of data fields tree
 			//def = default return value if nothing is found
 			var ret = def;
-			var multiEntrance = false;
+            var multiEntrance = false;
 			try{
 				if(i == 0 && tdata.hasOwnProperty(f + "1")){multiEntrance = true;}
 				var tdata = data;
@@ -68,6 +67,7 @@ var app = new Vue({
 				vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "count"], "N/A");
                 vm.entranceDateUpdated = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "date"], "N/A");
                 if(vm.entranceCount > 0){vm.entranceDisplay = vm.entranceCount + " vehicles | " + Math.round(vm.entranceCount * entranceMultiplier) + " visitors";}
+                console.log(vm.entranceCount, vm.entranceCountYesterday, vm.entranceDateUpdated, vm.entranceDisplay);
             }).catch(error => {
                 vm = "Fetch " + error;
             });
@@ -114,7 +114,7 @@ var app = new Vue({
         checkWeatherImage: function(icon){
             console.log("weather:", icon);
             if (icon == null || icon == "NULL" || icon == "null"){
-                this.weatherImage = "icons/blueBison.svg";
+                this.weatherImage = "icons/bison.svg";
                 return;
             }
             const hours = new Date().getUTCHours();
