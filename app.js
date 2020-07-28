@@ -95,8 +95,7 @@ var app = new Vue({
                 vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Today", "count"], 0);
                 vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Today", "count"], 0);
 				//Yesterday
-                var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "multiplier"], 1);
-                entranceMultiplier = 3;
+                var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "multiplier"], 3);
                 vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "count"], 0);
                 vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Yesterday", "count"], 0);
                 vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Yesterday", "count"], 0);
