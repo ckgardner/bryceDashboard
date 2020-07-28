@@ -127,9 +127,6 @@ var app = new Vue({
             }
         },
         setStop: function(id, radius, stop){
-            if(id == "trafficLine"){
-                console.log("setting stop", id, radius, stop);
-            }
             var c = document.getElementById(id);
             c.className = "background";
             var stopVal = Math.PI * radius * 2 * (stop);
