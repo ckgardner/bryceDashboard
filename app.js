@@ -5,7 +5,7 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data: {
         mainPage: 'Home',
-        totalVisitors: '18000',
+        totalVisitors: '9000',
         todaysDate: '',
         yesterdaysDate: '',
         currentTime: '',
@@ -14,13 +14,40 @@ var app = new Vue({
 
         parkingCount: '50',
 
-        Entrances: ['BRCA',],
+        Entrances: ['East',],
         entranceDisplay: '',
         entranceCount: '',
         entranceCountYesterday: '',
         entranceDateUpdated: '',
-        entrancePeople: 'N/A',
+        entrancePeopleYesterday: 'N/A',
+        entranceOutDisplay: 'N/A',
 
+        statesTimes: ['By Hour', 'Yesterday', '24 Hour', '7 Day', '30 Day'],
+        radarTimes: ['Monthly', 'Daily'],
+        stateArrowImage: 'icons/downArrow.png',
+        stateTimePage : 'By Hour',
+        radarTimePage: 'Monthly',
+        riverData: ['Hourly', 'Daily'],
+        riverTimePage: 'Hourly',
+        stateDateRange: [],
+        DatePickerPopUp: false,
+        eastStateURL: 'https://trailwaze.info/bryce/vehicleTrafficAvgPerHour.php',
+
+        visitor_selected: true,
+        overflow_selected: false,
+        M_selected: false,
+        ETI_selected: true, 
+        ETO_selected: false,
+        R_selected: false,
+        S_selected: false, 
+        D_selected: false,
+        Ratio_selected: false,
+        Month_selected: true,
+        Day_selected: false,
+
+        lightTraffic: true,
+        mediumTraffic: false,
+        heavyTraffic: false,
     },
     created: function () {
         this.getTodaysDate();
@@ -29,8 +56,12 @@ var app = new Vue({
     },
     methods:{
         statRefresh: function () {
+            this.fetchData();
+            this.getWeatherAPI();
         },
         resetPages: function () {
+            this.ETISelected();
+            this.MonthSelected();
         },
         getAPIData_safe: function (data, fields, def){
 			//data = json object api return data
@@ -60,17 +91,48 @@ var app = new Vue({
             var vm = this;
             axios.get("https://trailwaze.info/bryce/request.php").then(response => {
                 //Today
-				vm.entranceCount = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Today", "count"], 0);
-				vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntrance1", "Today", "count"], 0);
+				vm.entranceCount = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Today", "count"], 0);
+                vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Today", "count"], 0);
+                vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Today", "count"], 0);
 				//Yesterday
-				var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "multiplier"], 2.6);
-				vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "count"], "N/A");
-                vm.entranceDateUpdated = this.getAPIData_safe(response.data, ["BRCAEntrance1", "Yesterday", "date"], "N/A");
+                var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "multiplier"], 1);
+                entranceMultiplier = 2.6;
+                vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "count"], 0);
+                vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Yesterday", "count"], 0);
+                vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Yesterday", "count"], 0);
+                vm.entranceDateUpdated = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "date"], "N/A");
                 if(vm.entranceCount > 0){vm.entranceDisplay = vm.entranceCount + " vehicles | " + Math.round(vm.entranceCount * entranceMultiplier) + " visitors";}
-                console.log(vm.entranceCount, vm.entranceCountYesterday, vm.entranceDateUpdated, vm.entranceDisplay);
+                if(vm.entranceCountYesterday > 0){vm.entrancePeopleYesterday = Math.round(vm.entranceCountYesterday * entranceMultiplier);}
+
+                var E = vm.entranceCount/5000;
+                var O = 0.01;
+                if (this.mainPage == "Home"){
+                    this.loadHome(E);
+                }
+                if (this.mainPage == "Entrances"){
+                    this.loadEntrances(E,O);
+                }
             }).catch(error => {
                 vm = "Fetch " + error;
             });
+        },
+        loadHome: function(E){
+            this.setStop("line1", 47, E);
+        },
+        loadEntrances: function(E,O){
+            if(this.ETI_selected == true){
+                this.setStop("line2", 9, E);
+            }else if(this.ETO_selected == true){
+                this.setStop("line3", 9, O);
+            }
+        },
+        setStop: function(id, radius, stop){
+            var c = document.getElementById(id);
+            c.className = "background";
+            var stopVal = Math.PI * radius * 2 * (stop);
+            c.setAttribute("stroke-dasharray", stopVal + ", 3000");
+            c.setAttribute("stroke-dashoffset", stopVal);
+            c.className = "overlayLine";
         },
         getTodaysDate: function () {
             var date = new Date();
@@ -98,7 +160,7 @@ var app = new Vue({
         },
         getWeatherAPI: function() {
 			var vm = this;				
-			axios.get("https://forecast.weather.gov/MapClick.php?lat=37.1838&lon=-113.0032&unit=0&lg=english&FcstType=dwml").then(response => {
+			axios.get("https://forecast.weather.gov/MapClick.php?lat=37.70128&lon=-112.14897&unit=0&lg=english&FcstType=dwml").then(response => {
 				let parser = new DOMParser();
 				let doc = parser.parseFromString(response.data, "text/xml");
 				var currentWeather = doc.getElementsByTagName("data")[1];
@@ -112,7 +174,6 @@ var app = new Vue({
             });
         },
         checkWeatherImage: function(icon){
-            console.log("weather:", icon);
             if (icon == null || icon == "NULL" || icon == "null"){
                 this.weatherImage = "icons/bison.svg";
                 return;
@@ -125,5 +186,192 @@ var app = new Vue({
             icon = "./icons/"+ timeOfDay + icon.substr(icon.lastIndexOf("/")).replace(".png",".svg");
             this.weatherImage = icon;
         },
-    }
+        loadTraffic: function(){
+            axios.get("https://trailwaze.info/zion/vehicleTraffic_request.php?site=" + currentSite).then(response =>{
+                var rotateNum;
+                if (currentSite == "zionsouthin"){
+                    rotateNum = response.data.zionsouthin.rotate100;
+                }else{
+                    rotateNum = response.data.zioneastin.rotate100;
+                }
+                
+                if(rotateNum < 33){
+                    this.lightTraffic = true;
+                    this.lightTrafficEast = true;
+                    this.mediumTraffic = false;
+                    this.mediumTrafficEast = false;
+                    this.heavyTraffic = false;
+                    this.heavyTrafficEast = false;
+                }else if(rotateNum < 66){
+                    this.lightTraffic = false;
+                    this.lightTrafficEast = false;
+                    this.mediumTraffic = true;
+                    this.mediumTrafficEast = true;
+                    this.heavyTraffic = false;
+                    this.heavyTrafficEast = false;
+                }else{
+                    this.lightTraffic = false;
+                    this.lightTrafficEast = false;
+                    this.mediumTraffic = false;
+                    this.mediumTrafficEast = false;
+                    this.heavyTraffic = true;
+                    this.heavyTrafficEast = true;
+                }
+                rotateNum /= 100;
+                if(currentSite == "zionsouthin"){
+                    this.setStop("trafficLine", 47, rotateNum);
+                }else{
+                    this.setStop("trafficLine2", 47, rotateNum);
+                }
+                
+            }).catch(error =>{
+                vm = "Fetch " + error;
+            });
+            
+        },
+        MSelected: function(){
+            this.M_selected = true;
+            this.ETO_selected = false;
+            this.R_selected = false;
+            this.ETI_selected = false;
+            this.S_selected = false;
+            this.Ratio_selected = false;
+            this.D_selected = false;
+        },
+        ETISelected: function(){
+            this.M_selected = false;
+            this.ETO_selected = false;
+            this.R_selected = false;
+            this.ETI_selected = true;
+            this.S_selected = false;
+            this.Ratio_selected = false;
+            this.D_selected = false;
+        },
+        ETOSelected: function(){
+            this.M_selected = false;
+            this.ETO_selected = true;
+            this.R_selected = false;
+            this.ETI_selected = false;
+            this.S_selected = false;
+            this.Ratio_selected = false;
+            this.D_selected = false;
+        },
+        ratioSelected: function(){
+            this.M_selected = false;
+            this.Ratio_selected = true;
+            this.ETO_selected = false;
+            this.R_selected = false;
+            this.ETI_selected = false;
+            this.S_selected = false;
+            this.D_selected = false;
+        },
+        RSelected: function(){
+            this.M_selected = false;
+            this.ETO_selected = false;
+            this.R_selected = true;
+            this.ETI_selected = false;
+            this.S_selected = false;
+            this.Ratio_selected = false;
+            this.D_selected = false;
+        },
+        SSelected: function(){
+            this.M_selected = false;
+            this.ETO_selected = false;
+            this.R_selected = false;
+            this.ETI_selected = false;
+            this.S_selected = true;
+            this.Ratio_selected = false;
+            this.D_selected = false;
+        },
+        DSelected: function(){
+            this.M_selected = false;
+            this.ETO_selected = false;
+            this.R_selected = false;
+            this.ETI_selected = false;
+            this.S_selected = false;
+            this.Ratio_selected = false;
+            this.D_selected = true;
+        },
+        MonthSelected: function(){
+            this.Month_selected = true;
+            this.Day_selected = false;
+        },
+        DaySelected: function(){
+            this.Month_selected = false;
+            this.Day_selected = true;
+        },
+        resetRadarTabs: function(){
+            this.radarTimePage = 'Monthly';
+            this.eastRadarURL = '';
+        },
+        setEastRadarData: function(){
+            switch(this.radarTimePage){
+                case 'Monthly': this.eastRadarURL = ''; break;
+                case 'Daily': this.eastRadarURL = ''; break;
+            }
+        },
+        resetStateTabs: function() {
+            this.stateTimePage = 'By Hour';
+            this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficAvgPerHour.php';
+        },
+        setEastStateData: function() {
+            switch(this.stateTimePage) {
+                case 'By Hour': this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficAvgPerHour.php'; break;
+                case 'Yesterday': this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficByState.php?interval=yesterday'; break;
+                case '24 Hour': this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficByState.php?interval=1days'; break;
+                case '7 Day': this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficByState.php?interval=7days'; break;
+                case '30 Day': this.eastStateURL = 'https://trailwaze.info/bryce/vehicleTrafficByState.php?interval=30days'; break;
+            }
+        },
+        switchArrow: function() {
+            if(this.stateArrowImage == 'icons/downArrow.png'){
+                this.stateArrowImage = 'icons/upArrow.png';
+            } else{
+                this.stateArrowImage = 'icons/downArrow.png';
+            }
+        },
+        resetArrow: function() {
+            this.stateArrowImage = 'icons/downArrow.png';
+        },
+        selectStateDates: function(entrance) {
+            if( this.stateDateRange.length > 1) { // a range of days selected
+                let year1 = this.stateDateRange[0].substr(0,4);
+                let year2 = this.stateDateRange[1].substr(0,4);
+                let month1 = this.stateDateRange[0].substr(5,2);
+                let month2 = this.stateDateRange[1].substr(5,2);
+                let day1 = this.stateDateRange[0].substr(8,2);
+                let day2 = this.stateDateRange[1].substr(8,2);
+                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date_east.php?date1=${year1}-${month1}-${day1}&date2=${year2}-${month2}-${day2}`;
+                console.log(this.eastStateURL);
+            }else if( this.stateDateRange.length == 1) { // just a single day selected
+                let year1 = this.stateDateRange[0].substr(0,4);
+                let month1 = this.stateDateRange[0].substr(5,2);
+                let day1 = this.stateDateRange[0].substr(8,2);
+                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date_east.php?date1=${year1}-${month1}-${day1}&date2=${year1}-${month1}-${day1}`;
+                console.log(this.eastStateURL);
+            } else{
+                alert('No days were selected!');
+            }
+            this.stateDateRange = []; // reset calendar
+        },
+        closeDatePicker: function() {
+            this.DatePickerPopUp = false;
+        },
+        openDatePicker: function() {
+            this.DatePickerPopUp = true;
+        },
+        sleep: function(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+              if ((new Date().getTime() - start) > milliseconds){
+                break;
+              }
+            }
+        },
+    },
+    computed: {
+        dateRangeText () {
+            return this.stateDateRange.join(' ~ ');
+        }
+    },
 });

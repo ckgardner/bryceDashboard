@@ -251,33 +251,50 @@ v-app-bar{
     margin: 0 auto;
     margin-top: 152px;
 }
+.statWrapperEntrances{
+    width: 65%;
+    margin: 0 auto;
+}
 .statWrapper span{
 	vertical-align:middle;
-	display:inline-block;
+    display:inline-block;
+    margin-top: 15px;
 }
 .textWrap{
     display: inline;
+}
+.tempPush{
+    margin-left: 80px !important;
 }
 .svg2{
     vertical-align:middle;
     display: inline-block;
     margin-left: 20px;
+    margin-top: -22px;
 }
 .statWrapper2{
     width: 98%;
     margin: 0 auto;
 }
-.textWrapper{
+.textWrapper, .textWrapper2{
     display: inline-block;
     position: relative;
-    line-height: 23px;
+    line-height: 16px;
     vertical-align: middle;
+    margin-top: 16px;
 }
-.statImage{
+.textWrapper2{
+    margin-top: 4px;
+}
+.statImage, .statImage2{
     height: 23px;
     width: 23px;
     margin: 30px 30px 20px 0px;
     vertical-align: middle;
+}
+.statImage2{
+    margin: 20px 30px 20px 0px;
+
 }
 #parkingStat{
     background-color: #507282;
@@ -292,8 +309,8 @@ v-app-bar{
 #yesterdayWrapper{
     width: 65%;
     margin: 0 auto;
-    margin-top: 90px;
-    margin-bottom: 25px;
+    margin-top: 160px;
+    margin-bottom: 115px;
 }
 
 /* table{
@@ -336,7 +353,7 @@ th{
 }
 
 .gold{
-    color: #C9AC68;
+    color: #B25538;
 }
 .right{
     text-align: right;
@@ -439,12 +456,14 @@ body {
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    margin-left: 24px;
     text-align: center;
     /* margin-bottom: 15px; */
     display: inline-block;
     width: 100px;
     height: auto;
+}
+.MButtonContainer{
+    margin-left: 24px;
 }
 .titles{
     font-size: 30px;
@@ -496,8 +515,8 @@ body {
     border-bottom: 2px solid #507282;
 }
 .entranceButtonsfocus{
-    border-bottom: 2px solid #C9AC68;
-    color: #C9AC68;
+    border-bottom: 2px solid #B25538;
+    color: #B25538;
 }
 #parkingWrapper{
     width: 50%;
@@ -542,7 +561,7 @@ body {
 .statHeader2{
     width: 100%;
     height: 72px;
-    background-color: #C9AC68;
+    background-color: #B25538;
     text-align: left;
     padding-left: 20px;
     vertical-align: middle;
@@ -592,7 +611,7 @@ body {
     }
     #svg{
         position: relative;
-        top: 18%;
+        top: 90px;
         display: block;
         margin: 0 auto;
     }
@@ -620,8 +639,8 @@ body {
         margin-top: 10px; 
     }
     #titleWrapper{
-        width: 420px;
-        margin: 0 auto;
+        width: 320px;
+        left: 25%;
         margin-top: 15px;
         margin-bottom: 20px;
     }
