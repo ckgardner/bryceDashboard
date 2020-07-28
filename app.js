@@ -96,7 +96,7 @@ var app = new Vue({
                 vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Today", "count"], 0);
 				//Yesterday
                 var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "multiplier"], 1);
-                entranceMultiplier = 2.6;
+                entranceMultiplier = 3;
                 vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "count"], 0);
                 vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Yesterday", "count"], 0);
                 vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Yesterday", "count"], 0);
@@ -127,6 +127,9 @@ var app = new Vue({
             }
         },
         setStop: function(id, radius, stop){
+            if(id == "trafficLine"){
+                console.log("setting stop", id, radius, stop);
+            }
             var c = document.getElementById(id);
             c.className = "background";
             var stopVal = Math.PI * radius * 2 * (stop);
@@ -187,42 +190,26 @@ var app = new Vue({
             this.weatherImage = icon;
         },
         loadTraffic: function(){
-            axios.get("https://trailwaze.info/zion/vehicleTraffic_request.php?site=" + currentSite).then(response =>{
-                var rotateNum;
-                if (currentSite == "zionsouthin"){
-                    rotateNum = response.data.zionsouthin.rotate100;
-                }else{
-                    rotateNum = response.data.zioneastin.rotate100;
-                }
+            axios.get("https://trailwaze.info/bryce/vehicleTraffic_request.php?site=eastin").then(response =>{
+                var rotateNum = response.data.Array.rotate100;
                 
                 if(rotateNum < 33){
                     this.lightTraffic = true;
-                    this.lightTrafficEast = true;
                     this.mediumTraffic = false;
-                    this.mediumTrafficEast = false;
                     this.heavyTraffic = false;
-                    this.heavyTrafficEast = false;
                 }else if(rotateNum < 66){
                     this.lightTraffic = false;
-                    this.lightTrafficEast = false;
                     this.mediumTraffic = true;
-                    this.mediumTrafficEast = true;
                     this.heavyTraffic = false;
-                    this.heavyTrafficEast = false;
                 }else{
                     this.lightTraffic = false;
-                    this.lightTrafficEast = false;
                     this.mediumTraffic = false;
-                    this.mediumTrafficEast = false;
                     this.heavyTraffic = true;
-                    this.heavyTrafficEast = true;
                 }
                 rotateNum /= 100;
-                if(currentSite == "zionsouthin"){
-                    this.setStop("trafficLine", 47, rotateNum);
-                }else{
-                    this.setStop("trafficLine2", 47, rotateNum);
-                }
+
+                this.setStop("trafficLine", 47, rotateNum);
+
                 
             }).catch(error =>{
                 vm = "Fetch " + error;
@@ -341,13 +328,13 @@ var app = new Vue({
                 let month2 = this.stateDateRange[1].substr(5,2);
                 let day1 = this.stateDateRange[0].substr(8,2);
                 let day2 = this.stateDateRange[1].substr(8,2);
-                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date_east.php?date1=${year1}-${month1}-${day1}&date2=${year2}-${month2}-${day2}`;
+                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date.php?date1=${year1}-${month1}-${day1}&date2=${year2}-${month2}-${day2}`;
                 console.log(this.eastStateURL);
             }else if( this.stateDateRange.length == 1) { // just a single day selected
                 let year1 = this.stateDateRange[0].substr(0,4);
                 let month1 = this.stateDateRange[0].substr(5,2);
                 let day1 = this.stateDateRange[0].substr(8,2);
-                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date_east.php?date1=${year1}-${month1}-${day1}&date2=${year1}-${month1}-${day1}`;
+                this.eastStateURL = `https://trailwaze.info/bryce/plates_by_state_date.php?date1=${year1}-${month1}-${day1}&date2=${year1}-${month1}-${day1}`;
                 console.log(this.eastStateURL);
             } else{
                 alert('No days were selected!');

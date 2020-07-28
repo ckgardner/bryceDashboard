@@ -121,7 +121,7 @@
 								</div>
 							</div>
 							<div class="tabs">
-								<div class="MButtonContainer desktop-tabs"><button class="MButton entranceButtons" :class="{entranceButtonsfocus: M_selected}" @click="MSelected(); statRefresh();">TRAFFIC</button></div>
+								<div class="MButtonContainer desktop-tabs"><button class="MButton entranceButtons" :class="{entranceButtonsfocus: M_selected}" @click="MSelected(); statRefresh(); loadTraffic();">TRAFFIC</button></div>
 								<div class="MButtonContainer mobile-tabs"><button class="MButton entranceButtons" :class="{entranceButtonsfocus: M_selected}" @click="MSelected(); statRefresh();">TRAFFIC</button></div>
 
 								<div class="ETIButtonContainer desktop-tabs"><button class="ETIButton entranceButtons" :class="{entranceButtonsfocus: ETI_selected}" @click="ETISelected(); statRefresh();">CAMERA IN</button></div>
@@ -165,23 +165,23 @@
 							</div>
 							<div v-if="lightTraffic" class="trafficSvgContainer">
 								<svg class="trafficSvg" viewBox="45 43 110 110">
-									<image x="57.5" y="57.5" width="85" height="85" href="icons/east entrance.jpg"></image>
+									<image x="57.5" y="57.5" width="85" height="85" href="icons/bryce-canyon.jpg"></image>
 									<circle class="background" cx="100" cy="100" r="47" stroke="#E5E7DE" />
-									<circle id="trafficLine2" class="overlayLine" cx="100" cy="100" r="47" stroke="#7E8959" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+									<circle id="trafficLine" class="overlayLine" cx="100" cy="100" r="47" stroke="#7E8959" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
 								</svg>
 							</div>
 							<div v-if="mediumTraffic" class="trafficSvgContainer">
 								<svg class="trafficSvg" viewBox="45 43 110 110">
-									<image x="57.5" y="57.5" width="85" height="85" href="icons/east entrance.jpg"></image>
+									<image x="57.5" y="57.5" width="85" height="85" href="icons/bryce-canyon.jpg"></image>
 									<circle class="background" cx="100" cy="100" r="47" stroke="#F4EEE1" />
-									<circle id="trafficLine2" class="overlayLine" cx="100" cy="100" r="47" stroke="#C9AC68" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+									<circle id="trafficLine" class="overlayLine" cx="100" cy="100" r="47" stroke="#C9AC68" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
 								</svg>
 							</div>
 							<div v-if="heavyTraffic" class="trafficSvgContainer">
 								<svg class="trafficSvg" viewBox="45 43 110 110">
-									<image x="57.5" y="57.5" width="85" height="85" href="icons/east entrance.jpg"></image>
+									<image x="57.5" y="57.5" width="85" height="85" href="icons/bryce-canyon.jpg"></image>
 									<circle class="background" cx="100" cy="100" r="47" stroke="#F0DDD7" />
-									<circle id="trafficLine2" class="overlayLine" cx="100" cy="100" r="47" stroke="#B25538" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+									<circle id="trafficLine" class="overlayLine" cx="100" cy="100" r="47" stroke="#B25538" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
 								</svg>
 							</div>
 						</div>
