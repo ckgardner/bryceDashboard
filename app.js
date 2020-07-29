@@ -173,6 +173,7 @@ var app = new Vue({
             });
         },
         checkWeatherImage: function(icon){
+            console.log("WeatherIcon", icon);
             if (icon == null || icon == "NULL" || icon == "null"){
                 this.weatherImage = "icons/bison.svg";
                 return;
@@ -184,6 +185,7 @@ var app = new Vue({
             }
             icon = "./icons/"+ timeOfDay + icon.substr(icon.lastIndexOf("/")).replace(".png",".svg");
             this.weatherImage = icon;
+            console.log("WeatherImage:", this.weatherImage);
         },
         loadTraffic: function(){
             axios.get("https://trailwaze.info/bryce/vehicleTraffic_request.php?site=eastin").then(response =>{
