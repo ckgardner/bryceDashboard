@@ -54,7 +54,7 @@
 						<div class="stat" id="vcStat">
 							<div class="statWrapper noMargin">
 								<img class="statImage" src="icons/vcImg.svg">
-								<span style="display:inline-block;"><b>Visitor Center</b><br> {{vcDisplay}}</span>
+								<span style="display:inline-block;"><b>Visitor Center</b><br>{{vcCount}}</span>
 							</div>
 						</div>
 						<div id="svgContainer">
@@ -92,6 +92,11 @@
 								<td class="right smallHide tableTD">{{entranceDateUpdated}}</td>
 								</tr>
 								<tr>
+								<td class="tableTD">Visitor Center</td>
+								<td class="right tableTD">N/A</td>
+								<td class="right tableTD">{{vcCountYesterday}}</td>
+								<td class="right smallHide tableTD">{{vcDateUpdated}}</td>
+								</tr>
 							</table>
 						</div>
 						<img id="footer" src="icons/Bryce-footer.jpg">

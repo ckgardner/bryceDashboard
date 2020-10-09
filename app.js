@@ -21,7 +21,9 @@ var app = new Vue({
         entranceDateUpdated: '',
         entrancePeopleYesterday: 'N/A',
         entranceOutDisplay: 'N/A',
-        vcDisplay: '',
+        vcCount: '',
+        vcCountYesterday: '',
+        vcDateUpdated: '',
 
         statesTimes: ['By Hour', 'Yesterday', '24 Hour', '7 Day', '30 Day'],
         radarTimes: ['Monthly', 'Daily'],
@@ -91,11 +93,12 @@ var app = new Vue({
         fetchData: function(){
             var vm = this;
             axios.get("https://trailwaze.info/bryce/request.php").then(response => {
-                //Today
+                //Today Entrance
 				vm.entranceCount = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Today", "count"], 0);
                 vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Today", "count"], 0);
                 vm.entranceCount += this.getAPIData_safe(response.data, ["BRCAEntranceLane3", "Today", "count"], 0);
-				//Yesterday
+
+				//Yesterday Entrance
                 var entranceMultiplier = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "multiplier"], 3);
                 vm.entranceCountYesterday = this.getAPIData_safe(response.data, ["BRCAEntranceLane1", "Yesterday", "count"], 0);
                 vm.entranceCountYesterday += this.getAPIData_safe(response.data, ["BRCAEntranceLane2", "Yesterday", "count"], 0);
@@ -104,20 +107,30 @@ var app = new Vue({
                 if(vm.entranceCount > 0){vm.entranceDisplay = vm.entranceCount + " vehicles | " + Math.round(vm.entranceCount * entranceMultiplier) + " visitors";}
                 if(vm.entranceCountYesterday > 0){vm.entrancePeopleYesterday = Math.round(vm.entranceCountYesterday * entranceMultiplier);}
 
+                //Today VC
+                vm.vcCount = this.getAPIData_safe(response.data, ["BRCAVisitorCenter", "Today", "count"], 0);
+
+                //Yesterday VC
+                vm.vcCountYesterday = this.getAPIData_safe(response.data, ["BRCAVisitorCenter", "Yesterday", "count"], 0);
+                vm.vcDateUpdated = this.getAPIData_safe(response.data, ["BRCAVisitorCenter", "Yesterday", "date"], "N/A");
+
                 var E = vm.entranceCount/5000;
+                var VC = vm.vcCount/2000;
                 var O = 0.01;
                 if (this.mainPage == "Home"){
-                    this.loadHome(E);
+                    this.loadHome(E, VC);
                 }
                 if (this.mainPage == "Entrances"){
                     this.loadEntrances(E,O);
                 }
+
             }).catch(error => {
                 vm = "Fetch " + error;
             });
         },
-        loadHome: function(E){
+        loadHome: function(E, VC){
             this.setStop("line1", 47, E);
+            this.setStop("line2", 38, VC);
         },
         loadEntrances: function(E,O){
             if(this.ETI_selected == true){
