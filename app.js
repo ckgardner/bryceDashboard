@@ -21,6 +21,7 @@ var app = new Vue({
         entranceDateUpdated: '',
         entrancePeopleYesterday: 'N/A',
         entranceOutDisplay: 'N/A',
+        vcDisplay: '',
 
         statesTimes: ['By Hour', 'Yesterday', '24 Hour', '7 Day', '30 Day'],
         radarTimes: ['Monthly', 'Daily'],

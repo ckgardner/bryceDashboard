@@ -48,15 +48,23 @@
 						<div class="stat" id="eastEntranceStat">
 							<div class="statWrapper">
 								<img class="statImage" src="icons/east_entrance_outline.svg">
-								<span style="display:inline-block;"><b>East Entrance:</b><br> {{entranceDisplay}}</span>
+								<span style="display:inline-block;"><b>East Entrance</b><br> {{entranceDisplay}}</span>
+							</div>
+						</div>
+						<div class="stat" id="vcStat">
+							<div class="statWrapper noMargin">
+								<img class="statImage" src="icons/vcImg.svg">
+								<span style="display:inline-block;"><b>Visitor Center</b><br> {{vcDisplay}}</span>
 							</div>
 						</div>
 						<div id="svgContainer">
 							<svg id="svg" viewBox="45 43 110 110">
 								<circle cx="100" cy="100" r="51" style="stroke: white; fill: white;"/> 
-								<text x="86" y="104" id="currentTemp" font-size="9" font-weight="bold" style="fill: #B25538">{{currentTemp}}&#176;</text><image x="102" y="94" width="14" height="14" v-bind:href="weatherImage"></image>
-								<circle class="background" cx="100" cy="100" r="47" stroke="#F0DDD7" />
-								<circle id="line1" class="overlayLine" cx="100" cy="100" r="47" stroke="#B25538" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+								<text x="86" y="104" id="currentTemp" font-size="9" font-weight="bold" style="fill: #B35539">{{currentTemp}}&#176;</text><image x="102" y="94" width="14" height="14" v-bind:href="weatherImage"></image>
+								<circle class="background" cx="100" cy="100" r="47" stroke="#D9CFCC" />
+								<circle class="background" cx="100" cy="100" r="39" stroke="#E3D1D1" />
+								<circle id="line1" class="overlayLine" cx="100" cy="100" r="47" stroke="#592B1C" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
+								<circle id="line2" class="overlayLine" cx="100" cy="100" r="39" stroke="#873931" stroke-dasharray="0, 3000" stroke-dashoffset="251" transform="rotate(-90,100,100)" />
 							</svg>
 						</div>
 						<div class="smallShow">

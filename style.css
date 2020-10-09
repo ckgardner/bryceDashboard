@@ -302,7 +302,12 @@ v-app-bar{
     font-size: 16px;
 }
 #eastEntranceStat{
-    background-color: #B25538;
+    background-color: #592B1C;
+    color: white;
+    font-size: 16px;
+}
+#vcStat{
+    background-color: #873931;
     color: white;
     font-size: 16px;
 }
@@ -311,6 +316,9 @@ v-app-bar{
     margin: 0 auto;
     margin-top: 160px;
     margin-bottom: 115px;
+}
+.noMargin{
+    margin-top: 0px !important;
 }
 
 /* table{
@@ -363,7 +371,7 @@ th{
 }
 #svg{
     position: absolute;
-    top: 5%;
+    top: 8%;
     width: 350px;
     height: 350px;
 }
